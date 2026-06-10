@@ -247,7 +247,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 		<h2>
 			<?php
 			/* translators: payment method title */
-			printf( __( 'Paystack - %s', 'woo-paystack' ), esc_attr( $this->title ) );
+			printf( esc_html__( 'Paystack - %s', 'woo-paystack' ), esc_html( $this->title ) );
 			?>
 			<?php
 			if ( function_exists( 'wc_back_link' ) ) {
@@ -258,8 +258,20 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 
 		<h4>
 			<?php
-			/* translators: link to Paystack developers settings page */
-			printf( __( 'Important: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below', 'woo-paystack' ), 'https://dashboard.paystack.co/#/settings/developer' );
+			printf(
+				wp_kses(
+					/* translators: %s: Paystack dashboard developer settings URL. */
+					__( 'Important: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below', 'woo-paystack' ),
+					array(
+						'a' => array(
+							'href'   => array(),
+							'target' => array(),
+							'rel'    => array(),
+						),
+					)
+				),
+				esc_url( 'https://dashboard.paystack.com/#/settings/developers' )
+			);
 			?>
 		</h4>
 
@@ -269,8 +281,18 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 
 		<p>
 			<?php
-			/* translators: link to Paystack general settings page */
-			printf( __( 'To configure your Paystack API keys and enable/disable test mode, do that <a href="%s">here</a>', 'woo-paystack' ), esc_url( $paystack_settings_url ) );
+			printf(
+				wp_kses(
+					/* translators: %s: Paystack WooCommerce settings URL. */
+					__( 'To configure your Paystack API keys and enable/disable test mode, do that <a href="%s">here</a>', 'woo-paystack' ),
+					array(
+						'a' => array(
+							'href' => array(),
+						),
+					)
+				),
+				esc_url( $paystack_settings_url )
+			);
 			?>
 		</p>
 
@@ -284,8 +306,18 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 
 		} else {
 
-			/* translators: disabled message */
-			echo '<div class="inline error"><p><strong>' . sprintf( __( 'Paystack Payment Gateway Disabled: %s', 'woo-paystack' ), esc_attr( $this->msg ) ) . '</strong></p></div>';
+			echo '<div class="inline error"><p><strong>' . wp_kses(
+				sprintf(
+					/* translators: %s: gateway disabled message. */
+					__( 'Paystack Payment Gateway Disabled: %s', 'woo-paystack' ),
+					$this->msg
+				),
+				array(
+					'a' => array(
+						'href' => array(),
+					),
+				)
+			) . '</strong></p></div>';
 
 		}
 
@@ -428,18 +460,26 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 	 */
 	public function payment_scripts() {
 
-		if ( isset( $_GET['pay_for_order'] ) || ! is_checkout_pay_page() ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only WooCommerce checkout query arg.
+		$pay_for_order = isset( $_GET['pay_for_order'] );
+
+		if ( $pay_for_order || ! is_checkout_pay_page() ) {
 			return;
 		}
 
-		if ( $this->enabled === 'no' ) {
+		if ( 'no' === $this->enabled ) {
 			return;
 		}
 
-		$order_key = urldecode( $_GET['key'] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WooCommerce validates this order key against the order below.
+		$order_key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
 		$order_id  = absint( get_query_var( 'order-pay' ) );
 
 		$order = wc_get_order( $order_id );
+
+		if ( ! $order ) {
+			return;
+		}
 
 		if ( $this->id !== $order->get_payment_method() ) {
 			return;
@@ -469,7 +509,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 			$the_order_key = $order->get_order_key();
 			$currency      = $order->get_currency();
 
-			if ( $the_order_id == $order_id && $the_order_key == $order_key ) {
+			if ( $the_order_id === $order_id && $the_order_key === $order_key ) {
 
 				$paystack_params['email']    = $email;
 				$paystack_params['amount']   = absint( $amount );
@@ -611,7 +651,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 	 */
 	public function add_gateway_to_checkout( $available_gateways ) {
 
-		if ( $this->enabled == 'no' ) {
+		if ( 'no' === $this->enabled ) {
 			unset( $available_gateways[ $this->id ] );
 		}
 
@@ -626,7 +666,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 	 */
 	public function is_available() {
 
-		if ( 'yes' == $this->enabled ) {
+		if ( 'yes' === $this->enabled ) {
 
 			if ( ! ( $this->public_key && $this->secret_key ) ) {
 
