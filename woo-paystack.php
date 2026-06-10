@@ -70,7 +70,7 @@ add_action( 'plugins_loaded', 'tbz_wc_paystack_init', 99 );
 function tbz_woo_paystack_plugin_action_links( $links ) {
 
 	$settings_link = array(
-		'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=paystack' ) . '" title="' . __( 'View Paystack WooCommerce Settings', 'woo-paystack' ) . '">' . __( 'Settings', 'woo-paystack' ) . '</a>',
+		'settings' => '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=paystack' ) ) . '" title="' . esc_attr__( 'View Paystack WooCommerce Settings', 'woo-paystack' ) . '">' . esc_html__( 'Settings', 'woo-paystack' ) . '</a>',
 	);
 
 	return array_merge( $settings_link, $links );
@@ -141,7 +141,22 @@ function tbz_wc_add_paystack_gateway( $methods ) {
  * Display a notice if WooCommerce is not installed
  */
 function tbz_wc_paystack_wc_missing_notice() {
-	echo '<div class="error"><p><strong>' . sprintf( __( 'Paystack requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-paystack' ), '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' ) . '" class="thickbox open-plugin-details-modal">here</a>' ) . '</strong></p></div>';
+	$install_url  = admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' );
+	$install_link = '<a href="' . esc_url( $install_url ) . '" class="thickbox open-plugin-details-modal">' . esc_html__( 'here', 'woo-paystack' ) . '</a>';
+
+	echo '<div class="error"><p><strong>' . wp_kses(
+		sprintf(
+			/* translators: %s: WooCommerce plugin install link. */
+			__( 'Paystack requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-paystack' ),
+			$install_link
+		),
+		array(
+			'a' => array(
+				'href'  => array(),
+				'class' => array(),
+			),
+		)
+	) . '</strong></p></div>';
 }
 
 /**
