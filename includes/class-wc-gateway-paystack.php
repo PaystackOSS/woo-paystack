@@ -1059,7 +1059,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					$gateway_symbol   = get_woocommerce_currency_symbol( $payment_currency );
 
 					// check if the amount paid is equal to the order amount.
-					if ( $amount_paid < absint( $order_total ) ) {
+					if ( round( $amount_paid, 2 ) < round( $order_total, 2 ) ) {
 
 						$order->update_status( 'on-hold', '' );
 
@@ -1227,7 +1227,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					$gateway_symbol   = get_woocommerce_currency_symbol( $payment_currency );
 
 					// check if the amount paid is equal to the order amount.
-					if ( $amount_paid < absint( $order_total ) ) {
+					if ( round( $amount_paid, 2 ) < round( $order_total, 2 ) ) {
 
 						$order->update_status( 'on-hold', '' );
 
@@ -1377,7 +1377,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$gateway_symbol = get_woocommerce_currency_symbol( $payment_currency );
 
 		// check if the amount paid is equal to the order amount.
-		if ( $amount_paid < absint( $order_total ) ) {
+		if ( round( $amount_paid, 2 ) < round( $order_total, 2 ) ) {
 
 			$order->update_status( 'on-hold', '' );
 
