@@ -1568,7 +1568,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			return;
 		}
 
-		if ( $this->order_contains_subscription( $order_id ) && $paystack_response->data->authorization->reusable && 'card' === (string) $paystack_response->data->authorization->channel ) {
+		if ( $this->order_contains_subscription( $order_id ) && $paystack_response->data->authorization->reusable && 'card' === $paystack_response->data->authorization->channel ) {
 
 			$auth_code      = $paystack_response->data->authorization->authorization_code;
 			$customer_email = $paystack_response->data->customer->email;
@@ -1752,7 +1752,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		if ( false !== $paystack_response ) {
 
-			if ( 'success' === strtolower( $paystack_response->data->status ) ) {
+			if ( 'success' === $paystack_response->data->status ) {
 
 				/* translators: 1: WooCommerce order ID, 2: Site URL. */
 				$merchant_note = sprintf( __( 'Refund for Order ID: #%1$s on %2$s', 'woo-paystack' ), $order_id, get_site_url() );
