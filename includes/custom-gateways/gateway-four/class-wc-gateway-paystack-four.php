@@ -66,6 +66,7 @@ class WC_Gateway_Paystack_Four extends WC_Gateway_Custom_Paystack {
 
 		$this->supports = array(
 			'products',
+			'refunds',
 			'tokenization',
 			'subscriptions',
 			'multiple_subscriptions',
