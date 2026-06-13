@@ -117,8 +117,8 @@ If you do not find Paystack on the Payment method options, please go through the
 
 = 5.8.4 - June 13, 2026 =
 *   Fix: Payment amount verification now correctly handles decimal values
-*   Tweak: WooCommerce 10.8 compatibility.
-*   Dev: Resolve all issues reported by Plugin Check (PCP).
+*   Tweak: WooCommerce 10.8 compatibility
+*   Dev: Resolve all issues reported by Plugin Check (PCP)
 
 = 5.8.3 - April 30, 2026 =
 *   Misc: Pass site url in the referrer metadata
