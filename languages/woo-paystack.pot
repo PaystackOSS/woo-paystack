@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Paystack WooCommerce Payment Gateway\n"
-"POT-Creation-Date: 2026-04-29 23:11+0100\n"
-"PO-Revision-Date: 2026-04-29 23:10+0100\n"
+"POT-Creation-Date: 2026-06-13 17:12+0400\n"
+"PO-Revision-Date: 2026-06-13 15:42+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,35 +32,39 @@ msgstr ""
 msgid "Paystack Transaction Failed (%s)"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack-subscriptions.php:143
-#: includes/class-wc-gateway-paystack.php:1274
-#: includes/class-wc-gateway-paystack.php:1427
+#. translators: %s: Paystack transaction reference.
+#: includes/class-wc-gateway-paystack-subscriptions.php:144
+#: includes/class-wc-gateway-paystack.php:1161
+#: includes/class-wc-gateway-paystack.php:1338
+#: includes/class-wc-gateway-paystack.php:1499
 #, php-format
 msgid "Payment via Paystack successful (Transaction Reference: %s)"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack-subscriptions.php:155
+#: includes/class-wc-gateway-paystack-subscriptions.php:156
 msgid "Paystack payment failed."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack-subscriptions.php:159
+#: includes/class-wc-gateway-paystack-subscriptions.php:160
 #, php-format
 msgid "Paystack payment failed. Reason: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack-subscriptions.php:166
+#: includes/class-wc-gateway-paystack-subscriptions.php:167
 msgid ""
 "This subscription can&#39;t be renewed automatically. The customer will have "
 "to login to their account to renew their subscription"
 msgstr ""
 
+#. Author of the plugin/theme
 #: includes/class-wc-gateway-paystack.php:189
-#: includes/class-wc-gateway-paystack.php:366
+#: includes/class-wc-gateway-paystack.php:379
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:32
 msgid "Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:190
+#. translators: 1: Paystack signup URL, 2: Paystack API keys URL.
+#: includes/class-wc-gateway-paystack.php:191
 #, php-format
 msgid ""
 "Paystack provide merchants with the tools and services needed to accept "
@@ -70,7 +74,8 @@ msgid ""
 "your API keys</a>."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:286
+#. translators: %s: WooCommerce general settings URL.
+#: includes/class-wc-gateway-paystack.php:288
 #, php-format
 msgid ""
 "Paystack does not support your store currency. Kindly set it to either NGN "
@@ -78,203 +83,204 @@ msgid ""
 "(CFA), or EGP (E£) <a href=\"%s\">here</a>"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:330
+#. translators: %s: Paystack gateway settings URL.
+#: includes/class-wc-gateway-paystack.php:335
 #, php-format
 msgid ""
 "Please enter your Paystack merchant details <a href=\"%s\">here</a> to be "
 "able to use the Paystack WooCommerce plugin."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:369
+#: includes/class-wc-gateway-paystack.php:382
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:254
 msgid "Return to payments"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:375
+#. translators: %s: Paystack dashboard developer settings URL.
+#: includes/class-wc-gateway-paystack.php:393
 #, php-format
 msgid ""
 "Optional: To avoid situations where bad network makes it impossible to "
-"verify transactions, set your webhook URL <a href=\"%1$s\" target=\"_blank\" "
-"rel=\"noopener noreferrer\">here</a> to the URL below<span style=\"color: "
-"red\"><pre><code>%2$s</code></pre></span>"
+"verify transactions, set your webhook URL <a href=\"%s\" target=\"_blank\" "
+"rel=\"noopener noreferrer\">here</a> to the URL below"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:388
+#: includes/class-wc-gateway-paystack.php:422
 msgid "Paystack Payment Gateway Disabled"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:402
+#: includes/class-wc-gateway-paystack.php:443
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:19
 msgid "Enable/Disable"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:403
+#: includes/class-wc-gateway-paystack.php:444
 msgid "Enable Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:405
+#: includes/class-wc-gateway-paystack.php:446
 msgid "Enable Paystack as a payment option on the checkout page."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:410
+#: includes/class-wc-gateway-paystack.php:451
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:28
 msgid "Title"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:412
+#: includes/class-wc-gateway-paystack.php:453
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:30
 msgid ""
 "This controls the payment method title which the user sees during checkout."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:413
+#: includes/class-wc-gateway-paystack.php:454
 msgid "Debit/Credit Cards"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:417
+#: includes/class-wc-gateway-paystack.php:458
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:35
 msgid "Description"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:419
+#: includes/class-wc-gateway-paystack.php:460
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:37
 msgid ""
 "This controls the payment method description which the user sees during "
 "checkout."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:420
+#: includes/class-wc-gateway-paystack.php:461
 msgid "Make payment using your debit and credit cards"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:424
+#: includes/class-wc-gateway-paystack.php:465
 msgid "Test mode"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:425
+#: includes/class-wc-gateway-paystack.php:466
 msgid "Enable Test Mode"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:427
+#: includes/class-wc-gateway-paystack.php:468
 msgid ""
 "Test mode enables you to test payments before going live. <br />Once the "
 "LIVE MODE is enabled on your Paystack account uncheck this."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:432
+#: includes/class-wc-gateway-paystack.php:473
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:42
 msgid "Payment Option"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:434
+#: includes/class-wc-gateway-paystack.php:475
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:44
 msgid ""
 "Popup shows the payment popup on the page while Redirect will redirect the "
 "customer to Paystack to make payment."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:438
-#: includes/class-wc-gateway-paystack.php:519
-#: includes/class-wc-gateway-paystack.php:531
+#: includes/class-wc-gateway-paystack.php:479
+#: includes/class-wc-gateway-paystack.php:560
+#: includes/class-wc-gateway-paystack.php:572
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:48
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:105
 msgid "Select One"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:439
+#: includes/class-wc-gateway-paystack.php:480
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:49
 msgid "Popup"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:440
+#: includes/class-wc-gateway-paystack.php:481
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:50
 msgid "Redirect"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:444
+#: includes/class-wc-gateway-paystack.php:485
 msgid "Test Secret Key"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:446
+#: includes/class-wc-gateway-paystack.php:487
 msgid "Enter your Test Secret Key here"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:450
+#: includes/class-wc-gateway-paystack.php:491
 msgid "Test Public Key"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:452
+#: includes/class-wc-gateway-paystack.php:493
 msgid "Enter your Test Public Key here."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:456
+#: includes/class-wc-gateway-paystack.php:497
 msgid "Live Secret Key"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:458
+#: includes/class-wc-gateway-paystack.php:499
 msgid "Enter your Live Secret Key here."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:462
+#: includes/class-wc-gateway-paystack.php:503
 msgid "Live Public Key"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:464
+#: includes/class-wc-gateway-paystack.php:505
 msgid "Enter your Live Public Key here."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:468
+#: includes/class-wc-gateway-paystack.php:509
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:54
 msgid "Autocomplete Order After Payment"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:469
+#: includes/class-wc-gateway-paystack.php:510
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:55
 msgid "Autocomplete Order"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:472
+#: includes/class-wc-gateway-paystack.php:513
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:58
 msgid ""
 "If enabled, the order will be marked as complete after successful payment"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:477
+#: includes/class-wc-gateway-paystack.php:518
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:63
 msgid "Remove Cancel Order & Restore Cart Button"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:478
+#: includes/class-wc-gateway-paystack.php:519
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:64
 msgid "Remove the cancel order & restore cart button on the pay for order page"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:484
+#: includes/class-wc-gateway-paystack.php:525
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:70
 msgid "Split Payment"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:485
+#: includes/class-wc-gateway-paystack.php:526
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:71
 msgid "Enable Split Payment"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:493
+#: includes/class-wc-gateway-paystack.php:534
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:79
 msgid "Subaccount Code"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:495
+#: includes/class-wc-gateway-paystack.php:536
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:81
 msgid "Enter the subaccount code here."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:500
+#: includes/class-wc-gateway-paystack.php:541
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:86
 msgid "Split Payment Transaction Charge"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:502
+#: includes/class-wc-gateway-paystack.php:543
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:88
 msgid ""
 "A flat fee to charge the subaccount for this transaction, in Naira "
@@ -284,35 +290,35 @@ msgid ""
 "for a &#8358;100 flat fee."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:503
+#: includes/class-wc-gateway-paystack.php:544
 msgid "woocommerce_paystack_split_payment_transaction_charge"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:512
+#: includes/class-wc-gateway-paystack.php:553
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:98
 msgid "Paystack Charges Bearer"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:514
+#: includes/class-wc-gateway-paystack.php:555
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:100
 msgid "Who bears Paystack charges?"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:520
+#: includes/class-wc-gateway-paystack.php:561
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:106
 msgid "Account"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:521
+#: includes/class-wc-gateway-paystack.php:562
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:107
 msgid "Subaccount"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:525
+#: includes/class-wc-gateway-paystack.php:566
 msgid "Additional Paystack Gateways"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:527
+#: includes/class-wc-gateway-paystack.php:568
 msgid ""
 "Create additional custom Paystack based gateways. This allows you to create "
 "additional Paystack gateways using custom filters. You can create a gateway "
@@ -320,170 +326,171 @@ msgid ""
 "gateway that accepts a specific bank issued cards."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:532
+#: includes/class-wc-gateway-paystack.php:573
 msgid "1 gateway"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:533
+#: includes/class-wc-gateway-paystack.php:574
 msgid "2 gateways"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:534
+#: includes/class-wc-gateway-paystack.php:575
 msgid "3 gateways"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:535
+#: includes/class-wc-gateway-paystack.php:576
 msgid "4 gateways"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:536
+#: includes/class-wc-gateway-paystack.php:577
 msgid "5 gateways"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:540
+#: includes/class-wc-gateway-paystack.php:581
 msgid "Saved Cards"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:541
+#: includes/class-wc-gateway-paystack.php:582
 msgid "Enable Payment via Saved Cards"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:543
+#: includes/class-wc-gateway-paystack.php:584
 msgid ""
 "If enabled, users will be able to pay with a saved card during checkout. "
 "Card details are saved on Paystack servers, not on your store.<br>Note that "
 "you need to have a valid SSL certificate installed."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:548
+#: includes/class-wc-gateway-paystack.php:589
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:163
 msgid "Custom Metadata"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:549
+#: includes/class-wc-gateway-paystack.php:590
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:164
 msgid "Enable Custom Metadata"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:552
+#: includes/class-wc-gateway-paystack.php:593
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:167
 msgid ""
 "If enabled, you will be able to send more information about the order to "
 "Paystack."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:557
+#: includes/class-wc-gateway-paystack.php:598
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:172
 msgid "Order ID"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:558
+#: includes/class-wc-gateway-paystack.php:599
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:173
 msgid "Send Order ID"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:561
+#: includes/class-wc-gateway-paystack.php:602
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:176
 msgid "If checked, the Order ID will be sent to Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:566
+#: includes/class-wc-gateway-paystack.php:607
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:181
 msgid "Customer Name"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:567
+#: includes/class-wc-gateway-paystack.php:608
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:182
 msgid "Send Customer Name"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:570
+#: includes/class-wc-gateway-paystack.php:611
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:185
 msgid "If checked, the customer full name will be sent to Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:575
+#: includes/class-wc-gateway-paystack.php:616
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:190
 msgid "Customer Email"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:576
+#: includes/class-wc-gateway-paystack.php:617
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:191
 msgid "Send Customer Email"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:579
+#: includes/class-wc-gateway-paystack.php:620
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:194
 msgid "If checked, the customer email address will be sent to Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:584
+#: includes/class-wc-gateway-paystack.php:625
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:199
 msgid "Customer Phone"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:585
+#: includes/class-wc-gateway-paystack.php:626
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:200
 msgid "Send Customer Phone"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:588
+#: includes/class-wc-gateway-paystack.php:629
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:203
 msgid "If checked, the customer phone will be sent to Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:593
+#: includes/class-wc-gateway-paystack.php:634
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:208
 msgid "Order Billing Address"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:594
+#: includes/class-wc-gateway-paystack.php:635
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:209
 msgid "Send Order Billing Address"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:597
+#: includes/class-wc-gateway-paystack.php:638
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:212
 msgid "If checked, the order billing address will be sent to Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:602
+#: includes/class-wc-gateway-paystack.php:643
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:217
 msgid "Order Shipping Address"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:603
+#: includes/class-wc-gateway-paystack.php:644
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:218
 msgid "Send Order Shipping Address"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:606
+#: includes/class-wc-gateway-paystack.php:647
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:221
 msgid "If checked, the order shipping address will be sent to Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:611
+#: includes/class-wc-gateway-paystack.php:652
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:226
 msgid "Product(s) Purchased"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:612
+#: includes/class-wc-gateway-paystack.php:653
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:227
 msgid "Send Product(s) Purchased"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:615
+#: includes/class-wc-gateway-paystack.php:656
 #: includes/custom-gateways/class-wc-gateway-custom-paystack.php:230
 msgid "If checked, the product(s) purchased will be sent to Paystack"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:972
+#: includes/class-wc-gateway-paystack.php:1026
 msgid "Unable to process payment try again"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1067
-#: includes/class-wc-gateway-paystack.php:1235
-#: includes/class-wc-gateway-paystack.php:1385
+#. translators: 1: line break, 2: line break, 3: line break.
+#: includes/class-wc-gateway-paystack.php:1119
+#: includes/class-wc-gateway-paystack.php:1295
+#: includes/class-wc-gateway-paystack.php:1453
 #, php-format
 msgid ""
 "Thank you for shopping with us.%1$sYour payment transaction was successful, "
@@ -492,9 +499,10 @@ msgid ""
 "your order and payment status."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1074
-#: includes/class-wc-gateway-paystack.php:1242
-#: includes/class-wc-gateway-paystack.php:1392
+#. translators: 1: line break, 2: line break, 3: line break, 4: paid currency symbol, 5: amount paid, 6: order currency symbol, 7: order total, 8: line break, 9: Paystack transaction reference.
+#: includes/class-wc-gateway-paystack.php:1127
+#: includes/class-wc-gateway-paystack.php:1303
+#: includes/class-wc-gateway-paystack.php:1461
 #, php-format
 msgid ""
 "<strong>Look into this order</strong>%1$sThis order is currently on hold."
@@ -504,9 +512,10 @@ msgid ""
 "strong> %9$s"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1087
-#: includes/class-wc-gateway-paystack.php:1257
-#: includes/class-wc-gateway-paystack.php:1409
+#. translators: 1: line break, 2: line break, 3: line break.
+#: includes/class-wc-gateway-paystack.php:1141
+#: includes/class-wc-gateway-paystack.php:1319
+#: includes/class-wc-gateway-paystack.php:1479
 #, php-format
 msgid ""
 "Thank you for shopping with us.%1$sYour payment was successful, but the "
@@ -515,9 +524,10 @@ msgid ""
 "order and payment status."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1094
-#: includes/class-wc-gateway-paystack.php:1264
-#: includes/class-wc-gateway-paystack.php:1416
+#. translators: 1: line break, 2: line break, 3: line break, 4: order currency, 5: order currency symbol, 6: payment currency, 7: payment currency symbol, 8: line break, 9: Paystack transaction reference.
+#: includes/class-wc-gateway-paystack.php:1149
+#: includes/class-wc-gateway-paystack.php:1327
+#: includes/class-wc-gateway-paystack.php:1487
 #, php-format
 msgid ""
 "<strong>Look into this order</strong>%1$sThis order is currently on hold."
@@ -527,59 +537,63 @@ msgid ""
 "strong> %9$s"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1123
-#: includes/class-wc-gateway-paystack.php:1296
+#: includes/class-wc-gateway-paystack.php:1179
+#: includes/class-wc-gateway-paystack.php:1360
 msgid "Payment was declined by Paystack."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1124
+#: includes/class-wc-gateway-paystack.php:1180
 msgid "Payment failed using the saved card. Kindly use another payment option."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1128
+#. translators: %s: Paystack decline reason.
+#: includes/class-wc-gateway-paystack.php:1185
 #, php-format
 msgid "Payment was declined by Paystack. Reason: %s."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1129
+#. translators: %s: Paystack decline reason.
+#: includes/class-wc-gateway-paystack.php:1187
 #, php-format
 msgid ""
 "Payment failed using the saved card. Reason: %s. Kindly use another payment "
 "option."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1144
+#: includes/class-wc-gateway-paystack.php:1202
 msgid "Payment Failed."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1156
+#: includes/class-wc-gateway-paystack.php:1214
 msgid "You can only add a new card when placing an order."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1173
+#: includes/class-wc-gateway-paystack.php:1229
 msgid ""
 "Thank you for your order, please click the button below to pay with Paystack."
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1175
+#: includes/class-wc-gateway-paystack.php:1231
 msgid "Pay Now"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1178
-msgid "Cancel order &amp; restore cart"
+#: includes/class-wc-gateway-paystack.php:1234
+msgid "Cancel order & restore cart"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1686
+#. translators: 1: WooCommerce order ID, 2: Site URL.
+#: includes/class-wc-gateway-paystack.php:1758
 #, php-format
 msgid "Refund for Order ID: #%1$s on %2$s"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1717
+#. translators: 1: Refunded amount, 2: Paystack refund ID, 3: Refund reason.
+#: includes/class-wc-gateway-paystack.php:1790
 #, php-format
 msgid "Refunded %1$s. Refund ID: %2$s. Reason: %3$s"
 msgstr ""
 
-#: includes/class-wc-gateway-paystack.php:1730
+#: includes/class-wc-gateway-paystack.php:1803
 msgid "Can&#39;t process refund at the moment. Try again later."
 msgstr ""
 
@@ -660,8 +674,8 @@ msgstr ""
 msgid "Paystack - %s"
 msgstr ""
 
-#. translators: link to Paystack developers settings page
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:262
+#. translators: %s: Paystack dashboard developer settings URL.
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:264
 #, php-format
 msgid ""
 "Important: To avoid situations where bad network makes it impossible to "
@@ -669,208 +683,208 @@ msgid ""
 "rel=\"noopener noreferrer\">here</a> to the URL below"
 msgstr ""
 
-#. translators: link to Paystack general settings page
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:273
+#. translators: %s: Paystack WooCommerce settings URL.
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:287
 #, php-format
 msgid ""
 "To configure your Paystack API keys and enable/disable test mode, do that <a "
 "href=\"%s\">here</a>"
 msgstr ""
 
-#. translators: disabled message
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:288
+#. translators: %s: gateway disabled message.
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:312
 #, php-format
 msgid "Paystack Payment Gateway Disabled: %s"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:300
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:332
 msgid "Cards"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:301
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:333
 msgid "Pay with Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:302
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:334
 msgid "USSD"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:303
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:335
 msgid "QR"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:304
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:336
 msgid "Bank Transfer"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:315
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:367
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:347
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:399
 msgid "Visa"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:316
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:366
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:348
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:398
 msgid "Verve"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:317
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:368
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:349
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:400
 msgid "Mastercard"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:328
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:373
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:360
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:405
 msgid "Access Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:329
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:374
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:361
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:406
 msgid "ALAT by WEMA"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:330
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:375
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:362
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:407
 msgid "ASO Savings and Loans"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:331
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:376
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:363
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:408
 msgid "Citibank Nigeria"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:332
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:377
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:364
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:409
 msgid "Access Bank (Diamond)"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:333
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:378
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:365
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:410
 msgid "Ecobank Nigeria"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:334
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:379
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:366
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:411
 msgid "Ekondo Microfinance Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:335
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:380
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:367
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:412
 msgid "Enterprise Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:336
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:381
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:368
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:413
 msgid "Fidelity Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:337
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:382
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:369
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:414
 msgid "First Bank of Nigeria"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:338
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:383
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:370
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:415
 msgid "First City Monument Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:339
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:384
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:371
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:416
 msgid "Guaranty Trust Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:340
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:385
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:372
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:417
 msgid "Heritage Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:341
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:386
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:373
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:418
 msgid "Jaiz Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:342
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:387
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:374
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:419
 msgid "Keystone Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:343
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:388
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:375
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:420
 msgid "MainStreet Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:344
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:389
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:376
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:421
 msgid "Parallex Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:345
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:390
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:377
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:422
 msgid "Polaris Bank Limited"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:346
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:391
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:378
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:423
 msgid "Providus Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:347
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:392
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:379
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:424
 msgid "Stanbic IBTC Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:348
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:393
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:380
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:425
 msgid "Standard Chartered Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:349
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:394
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:381
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:426
 msgid "Sterling Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:350
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:395
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:382
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:427
 msgid "Suntrust Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:351
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:396
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:383
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:428
 msgid "Union Bank of Nigeria"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:352
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:397
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:384
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:429
 msgid "United Bank For Africa"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:353
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:398
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:385
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:430
 msgid "Unity Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:354
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:399
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:386
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:431
 msgid "Wema Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:355
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:400
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:387
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:432
 msgid "Zenith Bank"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:369
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:401
 msgid "Secured by Paystack White"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:370
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:402
 msgid "Secured by Paystack Blue"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:371
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:403
 msgid "Paystack Nigeria"
 msgstr ""
 
-#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:372
+#: includes/custom-gateways/class-wc-gateway-custom-paystack.php:404
 msgid "Paystack Ghana"
 msgstr ""
 
@@ -920,24 +934,29 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: woo-paystack.php:144
+#: woo-paystack.php:145
+msgid "here"
+msgstr ""
+
+#. translators: %s: WooCommerce plugin install link.
+#: woo-paystack.php:150
 #, php-format
 msgid ""
 "Paystack requires WooCommerce to be installed and active. Click %s to "
 "install WooCommerce."
 msgstr ""
 
-#: woo-paystack.php:180
+#: woo-paystack.php:195
 msgid "Paystack test mode enabled"
 msgstr ""
 
-#: woo-paystack.php:181
+#: woo-paystack.php:196
 msgid ""
 "Paystack test mode is currently enabled. Remember to disable it when you "
 "want to start accepting live payment on your site."
 msgstr ""
 
-#: woo-paystack.php:187
+#: woo-paystack.php:202
 msgid "Disable Paystack test mode"
 msgstr ""
 
@@ -946,17 +965,10 @@ msgid "Paystack WooCommerce Payment Gateway"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
 msgid "https://paystack.com"
 msgstr ""
 
 #. Description of the plugin/theme
 msgid "WooCommerce payment gateway for Paystack"
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "Tunbosun Ayinla"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://bosun.me"
 msgstr ""
