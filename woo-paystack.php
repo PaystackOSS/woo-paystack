@@ -3,16 +3,16 @@
  * Plugin Name: Paystack WooCommerce Payment Gateway
  * Plugin URI: https://paystack.com
  * Description: WooCommerce payment gateway for Paystack
- * Version: 5.8.3
- * Author: Tunbosun Ayinla
- * Author URI: https://bosun.me
+ * Version: 5.8.4
+ * Author: Paystack
+ * Author URI: https://paystack.com
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Requires Plugins: woocommerce
- * Requires at least: 6.2
+ * Requires at least: 6.8
  * Requires PHP: 7.4
  * WC requires at least: 9.6
- * WC tested up to: 10.7
+ * WC tested up to: 10.8
  * Text Domain: woo-paystack
  * Domain Path: /languages
  */
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WC_PAYSTACK_MAIN_FILE', __FILE__ );
 define( 'WC_PAYSTACK_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 
-define( 'WC_PAYSTACK_VERSION', '5.8.3' );
+define( 'WC_PAYSTACK_VERSION', '5.8.4' );
 
 /**
  * Initialize Paystack WooCommerce payment gateway.
@@ -70,7 +70,7 @@ add_action( 'plugins_loaded', 'tbz_wc_paystack_init', 99 );
 function tbz_woo_paystack_plugin_action_links( $links ) {
 
 	$settings_link = array(
-		'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=paystack' ) . '" title="' . __( 'View Paystack WooCommerce Settings', 'woo-paystack' ) . '">' . __( 'Settings', 'woo-paystack' ) . '</a>',
+		'settings' => '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=paystack' ) ) . '" title="' . esc_attr__( 'View Paystack WooCommerce Settings', 'woo-paystack' ) . '">' . esc_html__( 'Settings', 'woo-paystack' ) . '</a>',
 	);
 
 	return array_merge( $settings_link, $links );
@@ -141,7 +141,22 @@ function tbz_wc_add_paystack_gateway( $methods ) {
  * Display a notice if WooCommerce is not installed
  */
 function tbz_wc_paystack_wc_missing_notice() {
-	echo '<div class="error"><p><strong>' . sprintf( __( 'Paystack requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-paystack' ), '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' ) . '" class="thickbox open-plugin-details-modal">here</a>' ) . '</strong></p></div>';
+	$install_url  = admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' );
+	$install_link = '<a href="' . esc_url( $install_url ) . '" class="thickbox open-plugin-details-modal">' . esc_html__( 'here', 'woo-paystack' ) . '</a>';
+
+	echo '<div class="error"><p><strong>' . wp_kses(
+		sprintf(
+			/* translators: %s: WooCommerce plugin install link. */
+			__( 'Paystack requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-paystack' ),
+			$install_link
+		),
+		array(
+			'a' => array(
+				'href'  => array(),
+				'class' => array(),
+			),
+		)
+	) . '</strong></p></div>';
 }
 
 /**

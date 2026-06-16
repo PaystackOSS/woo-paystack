@@ -1,17 +1,17 @@
 {
 	"name": "woo-paystack",
 	"title": "Paystack WooCommerce Payment Gateway",
-	"version": "5.8.2",
-	"author": "Tunbosun Ayinla",
+	"version": "5.8.4",
+	"author": "Paystack",
 	"license": "GPL-3.0+",
 	"keywords": [],
 	"engines": {
-		"npm": ">=8.15.0",
-		"node": ">=16.17.0"
+		"node": "^24.13.0",
+		"npm": "^11.13.0"
 	},
 	"devDependencies": {
-		"@woocommerce/dependency-extraction-webpack-plugin": "2.2.0",
-		"@wordpress/scripts": "^32.1.0"
+		"@woocommerce/dependency-extraction-webpack-plugin": "^5.0.0",
+		"@wordpress/scripts": "^32.4.0"
 	},
 	"scripts": {
 		"start": "wp-scripts start",

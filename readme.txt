@@ -3,7 +3,7 @@ Contributors: paystack, tubiz
 Tags: paystack, woocommerce, payment gateway, mastercard, visa
 Requires at least: 6.8
 Tested up to: 7.0
-Stable tag: 5.8.3
+Stable tag: 5.8.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -114,6 +114,12 @@ If you do not find Paystack on the Payment method options, please go through the
 
 
 == Changelog ==
+
+= 5.8.4 - June 16, 2026 =
+*   New: Refund support for custom gateways
+*   Fix: Payment amount verification now correctly handles decimal values
+*   Tweak: WooCommerce 10.8 compatibility
+*   Dev: Resolve all issues reported by Plugin Check (PCP)
 
 = 5.8.3 - April 30, 2026 =
 *   Misc: Pass site url in the referrer metadata
