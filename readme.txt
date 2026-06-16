@@ -115,7 +115,7 @@ If you do not find Paystack on the Payment method options, please go through the
 
 == Changelog ==
 
-= 5.8.4 - June 13, 2026 =
+= 5.8.4 - June 16, 2026 =
 *   New: Refund support for custom gateways
 *   Fix: Payment amount verification now correctly handles decimal values
 *   Tweak: WooCommerce 10.8 compatibility
