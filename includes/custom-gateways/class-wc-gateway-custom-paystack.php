@@ -501,7 +501,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 
 			$email = $order->get_billing_email();
 
-			$amount = $order->get_total() * 100;
+            $amount = round( (float) $order->get_total() * 100 );
 
 			$txnref = $order_id . '_' . time();
 
