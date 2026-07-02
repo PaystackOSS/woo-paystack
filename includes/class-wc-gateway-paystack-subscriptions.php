@@ -88,7 +88,7 @@ class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
 
 		if ( ! empty( $paystack_token ) ) {
 
-			$order_amount = $amount * 100;
+			$order_amount = round( (float) $amount * 100 );
 			$txnref       = $order_id . '_' . time();
 
 			$order->update_meta_data( '_paystack_txn_ref', $txnref );
