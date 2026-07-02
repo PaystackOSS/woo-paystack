@@ -733,7 +733,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		if ( is_checkout_pay_page() && get_query_var( 'order-pay' ) ) {
 
 			$email         = $order->get_billing_email();
-			$amount        = $order->get_total() * 100;
+            $amount        = round( (float) $order->get_total() * 100 );
 			$txnref        = $order_id . '_' . time();
 			$the_order_id  = $order->get_id();
 			$the_order_key = $order->get_order_key();
@@ -960,8 +960,8 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	public function process_redirect_payment_option( $order_id ) {
 
 		$order        = wc_get_order( $order_id );
-		$amount       = $order->get_total() * 100;
 		$txnref       = $order_id . '_' . time();
+        $amount       = round( (float) $order->get_total() * 100 );
 		$callback_url = WC()->api_request_url( 'WC_Gateway_Paystack' );
 
 		$payment_channels = $this->get_gateway_payment_channels( $order );
@@ -1040,7 +1040,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 			$order = wc_get_order( $order_id );
 
-			$order_amount = $order->get_total() * 100;
+            $order_amount = round( (float) $order->get_total() * 100 );
 			$txnref       = $order_id . '_' . time();
 
 			$order->update_meta_data( '_paystack_txn_ref', $txnref );
