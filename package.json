@@ -1,7 +1,7 @@
 {
 	"name": "woo-paystack",
 	"title": "Paystack WooCommerce Payment Gateway",
-	"version": "5.8.4",
+	"version": "5.8.5",
 	"author": "Paystack",
 	"license": "GPL-3.0+",
 	"keywords": [],
