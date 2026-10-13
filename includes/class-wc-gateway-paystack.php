@@ -1398,6 +1398,29 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			return;
 		}
 
+		
+		// Tell PHP to keep running even if Paystack closes the connection early
+		ignore_user_abort( true );
+		
+		// Send 200 OK immediately to satisfy Paystack's webhook timeout
+		http_response_code( 200 );
+
+		// Close the connection to the client so they don't hang, but keep the script running
+		if ( function_exists( 'fastcgi_finish_request' ) ) {
+			fastcgi_finish_request();
+		} elseif ( function_exists( 'litespeed_finish_request' ) ) {
+			litespeed_finish_request();
+		} else {
+			// Fallback for standard server environments
+			header( 'Connection: close' );
+			header( 'Content-Length: ' . ob_get_length() );
+			ob_end_flush();
+			@ob_flush();
+			flush();
+		}
+		
+
+		
 		sleep( 10 );
 
 		$paystack_response = $this->get_paystack_transaction( $event->data->reference );
@@ -1421,8 +1444,6 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		if ( $paystack_response->data->reference !== $paystack_txn_ref ) {
 			exit;
 		}
-
-		http_response_code( 200 );
 
 		if ( in_array( $order->get_status(), array( 'processing', 'completed', 'on-hold' ), true ) ) {
 			exit;
