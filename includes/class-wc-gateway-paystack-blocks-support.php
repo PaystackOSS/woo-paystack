@@ -32,10 +32,26 @@ final class WC_Gateway_Paystack_Blocks_Support extends AbstractPaymentMethodType
 	 * @return boolean
 	 */
 	public function is_active() {
-		$payment_gateways_class = WC()->payment_gateways();
-		$payment_gateways       = $payment_gateways_class->payment_gateways();
-		return $payment_gateways['paystack']->is_available();
-	}
+    $payment_gateways_class = WC()->payment_gateways();
+    
+    // Check if payment gateways are available
+    if ($payment_gateways_class) {
+        $payment_gateways = $payment_gateways_class->payment_gateways();
+        
+        // Check if payment gateways is not empty and Paystack gateway exists
+        if (!empty($payment_gateways) && isset($payment_gateways['paystack'])) {
+            // Check if Paystack gateway is available
+            return $payment_gateways['paystack']->is_available();
+        } else {
+            // Paystack gateway not found
+            return false;
+        }
+    } else {
+        // Payment gateways not initialized
+        throw new Exception('Payment gateways not initialized');
+    }
+}
+
 
 	/**
 	 * Returns an array of scripts/handles to be registered for this payment method.
