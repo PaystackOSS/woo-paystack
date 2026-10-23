@@ -718,6 +718,10 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			return;
 		}
 
+		if ( '' === $order_key || $order->get_id() !== $order_id || ! $order->key_is_valid( $order_key ) ) {
+			return;
+		}
+
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 		wp_enqueue_script( 'jquery' );
@@ -731,25 +735,17 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		);
 
 		if ( is_checkout_pay_page() && get_query_var( 'order-pay' ) ) {
+			$email    = $order->get_billing_email();
+			$amount   = round( (float) $order->get_total() * 100 );
+			$txnref   = $order_id . '_' . time();
+			$currency = $order->get_currency();
 
-			$email         = $order->get_billing_email();
-            $amount        = round( (float) $order->get_total() * 100 );
-			$txnref        = $order_id . '_' . time();
-			$the_order_id  = $order->get_id();
-			$the_order_key = $order->get_order_key();
-			$currency      = $order->get_currency();
-
-			if ( $the_order_id === $order_id && $the_order_key === $order_key ) {
-
-				$paystack_params['email']    = $email;
-				$paystack_params['amount']   = absint( $amount );
-				$paystack_params['txnref']   = $txnref;
-				$paystack_params['currency'] = $currency;
-
-			}
+			$paystack_params['email']    = $email;
+			$paystack_params['amount']   = absint( $amount );
+			$paystack_params['txnref']   = $txnref;
+			$paystack_params['currency'] = $currency;
 
 			if ( $this->split_payment ) {
-
 				$paystack_params['subaccount_code'] = $this->subaccount_code;
 				$paystack_params['charges_account'] = $this->charges_account;
 
@@ -761,33 +757,23 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			}
 
 			if ( $this->custom_metadata ) {
-
 				if ( $this->meta_order_id ) {
-
 					$paystack_params['meta_order_id'] = $order_id;
-
 				}
 
 				if ( $this->meta_name ) {
-
 					$paystack_params['meta_name'] = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-
 				}
 
 				if ( $this->meta_email ) {
-
 					$paystack_params['meta_email'] = $email;
-
 				}
 
 				if ( $this->meta_phone ) {
-
 					$paystack_params['meta_phone'] = $order->get_billing_phone();
-
 				}
 
 				if ( $this->meta_products ) {
-
 					$line_items = $order->get_items();
 
 					$products = '';
@@ -802,62 +788,55 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					$products = rtrim( $products, ' | ' );
 
 					$paystack_params['meta_products'] = $products;
-
 				}
 
 				if ( $this->meta_billing_address ) {
-
 					$billing_address = $order->get_formatted_billing_address();
 					$billing_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $billing_address ) );
 
 					$paystack_params['meta_billing_address'] = $billing_address;
-
 				}
 
 				if ( $this->meta_shipping_address ) {
-
 					$shipping_address = $order->get_formatted_shipping_address();
 					$shipping_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $shipping_address ) );
 
 					if ( empty( $shipping_address ) ) {
-
 						$billing_address = $order->get_formatted_billing_address();
 						$billing_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $billing_address ) );
 
 						$shipping_address = $billing_address;
-
 					}
 
 					$paystack_params['meta_shipping_address'] = $shipping_address;
-
 				}
 			}
 
 			$order->update_meta_data( '_paystack_txn_ref', $txnref );
 			$order->save();
-		}
 
-		$payment_channels = $this->get_gateway_payment_channels( $order );
+			$payment_channels = $this->get_gateway_payment_channels( $order );
 
-		if ( ! empty( $payment_channels ) ) {
-			if ( in_array( 'card', $payment_channels, true ) ) {
-				$paystack_params['card_channel'] = 'true';
-			}
+			if ( ! empty( $payment_channels ) ) {
+				if ( in_array( 'card', $payment_channels, true ) ) {
+					$paystack_params['card_channel'] = 'true';
+				}
 
-			if ( in_array( 'bank', $payment_channels, true ) ) {
-				$paystack_params['bank_channel'] = 'true';
-			}
+				if ( in_array( 'bank', $payment_channels, true ) ) {
+					$paystack_params['bank_channel'] = 'true';
+				}
 
-			if ( in_array( 'ussd', $payment_channels, true ) ) {
-				$paystack_params['ussd_channel'] = 'true';
-			}
+				if ( in_array( 'ussd', $payment_channels, true ) ) {
+					$paystack_params['ussd_channel'] = 'true';
+				}
 
-			if ( in_array( 'qr', $payment_channels, true ) ) {
-				$paystack_params['qr_channel'] = 'true';
-			}
+				if ( in_array( 'qr', $payment_channels, true ) ) {
+					$paystack_params['qr_channel'] = 'true';
+				}
 
-			if ( in_array( 'bank_transfer', $payment_channels, true ) ) {
-				$paystack_params['bank_transfer_channel'] = 'true';
+				if ( in_array( 'bank_transfer', $payment_channels, true ) ) {
+					$paystack_params['bank_transfer_channel'] = 'true';
+				}
 			}
 		}
 
