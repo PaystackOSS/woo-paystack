@@ -3,7 +3,7 @@ Contributors: paystack, tubiz
 Tags: paystack, woocommerce, payment gateway, mastercard, visa
 Requires at least: 6.8
 Tested up to: 7.1
-Stable tag: 5.8.5
+Stable tag: 5.8.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -114,6 +114,10 @@ If you do not find Paystack on the Payment method options, please go through the
 
 
 == Changelog ==
+
+= 5.8.6 - October 31, 2026 =
+*   Fix: Validate order key before displaying Paystack params on the pay for order page
+*   Tweak: WooCommerce 11.2 compatibility
 
 = 5.8.5 - July 2, 2026 =
 *   Fix: Order amount rounding issue when initializing payment
