@@ -485,6 +485,10 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 			return;
 		}
 
+		if ( '' === $order_key || $order->get_id() !== $order_id || ! $order->key_is_valid( $order_key ) ) {
+			return;
+		}
+
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 		wp_enqueue_script( 'jquery' );
@@ -501,22 +505,15 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 
 			$email = $order->get_billing_email();
 
-            $amount = round( (float) $order->get_total() * 100 );
+			$amount = round( (float) $order->get_total() * 100 );
 
-			$txnref = $order_id . '_' . time();
+			$txnref   = $order_id . '_' . time();
+			$currency = $order->get_currency();
 
-			$the_order_id  = $order->get_id();
-			$the_order_key = $order->get_order_key();
-			$currency      = $order->get_currency();
-
-			if ( $the_order_id === $order_id && $the_order_key === $order_key ) {
-
-				$paystack_params['email']    = $email;
-				$paystack_params['amount']   = absint( $amount );
-				$paystack_params['txnref']   = $txnref;
-				$paystack_params['currency'] = $currency;
-
-			}
+			$paystack_params['email']    = $email;
+			$paystack_params['amount']   = absint( $amount );
+			$paystack_params['txnref']   = $txnref;
+			$paystack_params['currency'] = $currency;
 
 			if ( $this->split_payment ) {
 
