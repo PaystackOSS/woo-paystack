@@ -2,9 +2,9 @@
 /**
  * Tests for WC_Paystack_Webhook_Signature.
  *
- * The headers below were produced by Paystack's own signer (`t=<t>,v1=<key id>:<hex>`, each hex an
- * HMAC-SHA512 over `<t>.<body>` keyed with the whole `whsec_` string), not by this plugin, so a
- * mistake shared by the verifier and the test cannot hide.
+ * The headers below were computed outside this plugin (`t=<t>,v1=<key id>:<hex>`, each hex an
+ * HMAC-SHA512 over `<t>.<body>` keyed with the whole `whsec_` string), so a mistake shared by the
+ * verifier and the test cannot hide.
  */
 
 use PHPUnit\Framework\TestCase;

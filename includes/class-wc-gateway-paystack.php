@@ -1515,6 +1515,8 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$active_mode = $this->testmode ? 'test' : 'live';
 		$other_mode  = $this->testmode ? 'live' : 'test';
 
+		$event = json_decode( $json );
+
 		$verification = $this->verify_webhook_for_mode( $active_mode, $json );
 
 		if ( ! $verification['valid'] ) {
@@ -1525,12 +1527,21 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				exit;
 			}
 
+			// Nothing could verify an event for a mode the store has no keys for, and it would never be
+			// processed. Acknowledge it rather than have Paystack retry it. Only the event's own claim
+			// of mode is used, so a misconfigured active mode still gets a 401.
+			$event_mode = isset( $event->data->domain ) ? $event->data->domain : '';
+
+			if ( $other_mode === $event_mode && ! $this->has_webhook_credentials( $other_mode ) ) {
+				wc_get_logger()->info( 'Webhook ignored: it is for ' . $other_mode . ' mode, which has no keys configured', array( 'source' => 'paystack' ) );
+				status_header( 200 );
+				exit;
+			}
+
 			wc_get_logger()->warning( 'Webhook refused: ' . $verification['reason'], array( 'source' => 'paystack' ) );
 			status_header( 401 );
 			exit;
 		}
-
-		$event = json_decode( $json );
 
 		if ( 'charge.success' !== strtolower( $event->event ) ) {
 			return;
@@ -1676,6 +1687,17 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		}
 
 		return $verification;
+	}
+
+	/**
+	 * Whether a mode has a key or a webhook signing secret saved.
+	 *
+	 * @param string $mode 'test' or 'live'.
+	 *
+	 * @return bool
+	 */
+	protected function has_webhook_credentials( $mode ) {
+		return '' !== (string) $this->get_option( $mode . '_secret_key' ) || '' !== (string) $this->get_option( $mode . '_webhook_signing_secret' );
 	}
 
 	/**

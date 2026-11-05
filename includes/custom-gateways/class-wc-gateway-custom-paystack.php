@@ -261,7 +261,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 			printf(
 				wp_kses(
 					/* translators: %s: Paystack dashboard developer settings URL. */
-					__( 'Important: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below', 'woo-paystack' ),
+					__( 'Required: Orders are only confirmed when the customer returns to your store, or by webhook. Set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below, and paste your webhook signing secret into the main Paystack payment method settings.', 'woo-paystack' ),
 					array(
 						'a' => array(
 							'href'   => array(),
