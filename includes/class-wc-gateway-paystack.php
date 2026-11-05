@@ -168,6 +168,13 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	public $secret_key;
 
 	/**
+	 * Webhook signing secret (`whsec_`) for the active mode.
+	 *
+	 * @var string
+	 */
+	public $webhook_signing_secret;
+
+	/**
 	 * Gateway disabled message
 	 *
 	 * @var string
@@ -248,6 +255,8 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$this->public_key = $this->testmode ? $this->test_public_key : $this->live_public_key;
 		$this->secret_key = $this->testmode ? $this->test_secret_key : $this->live_secret_key;
+
+		$this->webhook_signing_secret = $this->get_option( $this->testmode ? 'test_webhook_signing_secret' : 'live_webhook_signing_secret' );
 
 		// Hooks
 		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
@@ -390,7 +399,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				printf(
 					wp_kses(
 						/* translators: %s: Paystack dashboard developer settings URL. */
-						__( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below', 'woo-paystack' ),
+						__( 'Required: Orders are only confirmed when the customer returns to your store, or by webhook. Set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below, and paste your webhook signing secret into the settings below.', 'woo-paystack' ),
 						array(
 							'a' => array(
 								'href'   => array(),
@@ -410,6 +419,8 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		</p>
 
 		<?php
+
+		$this->webhook_readiness_notice();
 
 		if ( $this->is_valid_for_use() ) {
 
@@ -431,6 +442,139 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			<?php
 		}
 
+	}
+
+	/**
+	 * Show, per mode, whether the store is ready for its Paystack secret key to be deleted.
+	 */
+	protected function webhook_readiness_notice() {
+
+		$modes = array(
+			'test' => __( 'Test mode', 'woo-paystack' ),
+			'live' => __( 'Live mode', 'woo-paystack' ),
+		);
+
+		$lines = array();
+
+		foreach ( $modes as $mode => $label ) {
+			$api_key        = (string) $this->get_option( $mode . '_secret_key' );
+			$signing_secret = (string) $this->get_option( $mode . '_webhook_signing_secret' );
+
+			if ( '' === $api_key && '' === $signing_secret ) {
+				continue;
+			}
+
+			$verified_at = (int) get_option( self::webhook_verified_at_option( $mode ), 0 );
+
+			if ( '' === $signing_secret ) {
+				$message = 0 === strpos( $api_key, 'sk_' )
+					? __( 'Using a secret key: Paystack recommends switching to a restricted key', 'woo-paystack' )
+					: __( 'Not ready: add your webhook signing secret before deleting your secret key', 'woo-paystack' );
+			} elseif ( 0 !== strpos( $api_key, 'rk_' ) ) {
+				$message = __( 'Not ready: replace your secret key with a restricted key before deleting it', 'woo-paystack' );
+			} elseif ( $verified_at > time() - 7 * DAY_IN_SECONDS ) {
+				$message = __( 'Ready to delete your secret key', 'woo-paystack' );
+			} else {
+				$message = __( 'Almost ready: place a test order to confirm webhooks arrive', 'woo-paystack' );
+			}
+
+			$lines[] = '<strong>' . esc_html( $label ) . ':</strong> ' . esc_html( $message );
+		}
+
+		if ( empty( $lines ) ) {
+			return;
+		}
+
+		echo '<p>' . implode( '<br />', $lines ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each line is escaped above.
+	}
+
+	/**
+	 * Name of the option holding when a `Paystack-Signature` webhook was last verified in a mode.
+	 *
+	 * @param string $mode 'test' or 'live'.
+	 *
+	 * @return string
+	 */
+	protected static function webhook_verified_at_option( $mode ) {
+		return 'woo_paystack_webhook_verified_at_' . $mode;
+	}
+
+	/**
+	 * Validate the test secret or restricted key.
+	 *
+	 * @param string $key   Field key.
+	 * @param string $value Posted value.
+	 *
+	 * @return string
+	 */
+	public function validate_test_secret_key_field( $key, $value ) {
+		return $this->validate_prefixed_field( $key, $value, array( 'sk_test_', 'rk_test_' ), __( 'Test Secret or Restricted Key must start with sk_test_ or rk_test_.', 'woo-paystack' ) );
+	}
+
+	/**
+	 * Validate the live secret or restricted key.
+	 *
+	 * @param string $key   Field key.
+	 * @param string $value Posted value.
+	 *
+	 * @return string
+	 */
+	public function validate_live_secret_key_field( $key, $value ) {
+		return $this->validate_prefixed_field( $key, $value, array( 'sk_live_', 'rk_live_' ), __( 'Live Secret or Restricted Key must start with sk_live_ or rk_live_.', 'woo-paystack' ) );
+	}
+
+	/**
+	 * Validate the test webhook signing secret.
+	 *
+	 * @param string $key   Field key.
+	 * @param string $value Posted value.
+	 *
+	 * @return string
+	 */
+	public function validate_test_webhook_signing_secret_field( $key, $value ) {
+		return $this->validate_prefixed_field( $key, $value, array( 'whsec_' ), __( 'Test Webhook Signing Secret must start with whsec_.', 'woo-paystack' ) );
+	}
+
+	/**
+	 * Validate the live webhook signing secret.
+	 *
+	 * @param string $key   Field key.
+	 * @param string $value Posted value.
+	 *
+	 * @return string
+	 */
+	public function validate_live_webhook_signing_secret_field( $key, $value ) {
+		return $this->validate_prefixed_field( $key, $value, array( 'whsec_' ), __( 'Live Webhook Signing Secret must start with whsec_.', 'woo-paystack' ) );
+	}
+
+	/**
+	 * Accept an empty value or one starting with an allowed prefix. Anything else is rejected with
+	 * an inline error and the saved value is kept.
+	 *
+	 * @param string   $key      Field key.
+	 * @param string   $value    Posted value.
+	 * @param string[] $prefixes Allowed prefixes.
+	 * @param string   $error    Error shown when the value is rejected.
+	 *
+	 * @return string
+	 */
+	protected function validate_prefixed_field( $key, $value, $prefixes, $error ) {
+
+		$value = $this->validate_password_field( $key, $value );
+
+		if ( '' === $value ) {
+			return $value;
+		}
+
+		foreach ( $prefixes as $prefix ) {
+			if ( 0 === strpos( $value, $prefix ) ) {
+				return $value;
+			}
+		}
+
+		WC_Admin_Settings::add_error( $error );
+
+		return $this->get_option( $key );
 	}
 
 	/**
@@ -482,9 +626,15 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				),
 			),
 			'test_secret_key'                  => array(
-				'title'       => __( 'Test Secret Key', 'woo-paystack' ),
+				'title'       => __( 'Test Secret or Restricted Key', 'woo-paystack' ),
 				'type'        => 'password',
-				'description' => __( 'Enter your Test Secret Key here', 'woo-paystack' ),
+				'description' => __( 'Enter your test secret key (sk_test_) or restricted key (rk_test_) here. Paystack recommends a restricted key with these permissions: Transactions (read and write), and Disputes and refunds (write).', 'woo-paystack' ),
+				'default'     => '',
+			),
+			'test_webhook_signing_secret'      => array(
+				'title'       => __( 'Test Webhook Signing Secret', 'woo-paystack' ),
+				'type'        => 'password',
+				'description' => __( 'Enter the test webhook signing secret (whsec_) from your Paystack dashboard. Required before you delete your secret key.', 'woo-paystack' ),
 				'default'     => '',
 			),
 			'test_public_key'                  => array(
@@ -494,9 +644,15 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				'default'     => '',
 			),
 			'live_secret_key'                  => array(
-				'title'       => __( 'Live Secret Key', 'woo-paystack' ),
+				'title'       => __( 'Live Secret or Restricted Key', 'woo-paystack' ),
 				'type'        => 'password',
-				'description' => __( 'Enter your Live Secret Key here.', 'woo-paystack' ),
+				'description' => __( 'Enter your live secret key (sk_live_) or restricted key (rk_live_) here. Paystack recommends a restricted key with these permissions: Transactions (read and write), and Disputes and refunds (write).', 'woo-paystack' ),
+				'default'     => '',
+			),
+			'live_webhook_signing_secret'      => array(
+				'title'       => __( 'Live Webhook Signing Secret', 'woo-paystack' ),
+				'type'        => 'password',
+				'description' => __( 'Enter the live webhook signing secret (whsec_) from your Paystack dashboard. Required before you delete your secret key.', 'woo-paystack' ),
 				'default'     => '',
 			),
 			'live_public_key'                  => array(
@@ -1357,18 +1513,31 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 */
 	public function process_webhooks() {
 
-		$request_method     = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
-		$paystack_signature = isset( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ) : '';
+		$request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
 
-		if ( empty( $paystack_signature ) || ( 'POST' !== strtoupper( $request_method ) ) ) {
+		if ( 'POST' !== strtoupper( $request_method ) ) {
 			exit;
 		}
 
 		$json = file_get_contents( 'php://input' );
 
-		// validate event do all at once to avoid timing attack.
-		if ( $paystack_signature !== hash_hmac( 'sha512', $json, $this->secret_key ) ) {
+		$verification = WC_Paystack_Webhook_Signature::verify(
+			$json,
+			isset( $_SERVER['HTTP_PAYSTACK_SIGNATURE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_PAYSTACK_SIGNATURE'] ) ) : '',
+			isset( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ) : '',
+			(string) $this->webhook_signing_secret,
+			(string) $this->secret_key,
+			time()
+		);
+
+		if ( ! $verification['valid'] ) {
+			wc_get_logger()->warning( 'Webhook refused: ' . $verification['reason'], array( 'source' => 'paystack' ) );
+			status_header( 401 );
 			exit;
+		}
+
+		if ( WC_Paystack_Webhook_Signature::SCHEME_SIGNING_SECRET === $verification['scheme'] ) {
+			update_option( self::webhook_verified_at_option( $this->testmode ? 'test' : 'live' ), time(), false );
 		}
 
 		$event = json_decode( $json );
