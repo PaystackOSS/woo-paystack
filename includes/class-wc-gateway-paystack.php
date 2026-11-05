@@ -168,13 +168,6 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	public $secret_key;
 
 	/**
-	 * Webhook signing secret (`whsec_`) for the active mode.
-	 *
-	 * @var string
-	 */
-	public $webhook_signing_secret;
-
-	/**
 	 * Gateway disabled message
 	 *
 	 * @var string
@@ -255,8 +248,6 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$this->public_key = $this->testmode ? $this->test_public_key : $this->live_public_key;
 		$this->secret_key = $this->testmode ? $this->test_secret_key : $this->live_secret_key;
-
-		$this->webhook_signing_secret = $this->get_option( $this->testmode ? 'test_webhook_signing_secret' : 'live_webhook_signing_secret' );
 
 		// Hooks
 		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
@@ -469,7 +460,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			if ( '' === $signing_secret ) {
 				$message = 0 === strpos( $api_key, 'sk_' )
 					? __( 'Using a secret key: Paystack recommends switching to a restricted key', 'woo-paystack' )
-					: __( 'Not ready: add your webhook signing secret before deleting your secret key', 'woo-paystack' );
+					: __( 'Not ready: webhooks are refused until you add your webhook signing secret', 'woo-paystack' );
 			} elseif ( 0 !== strpos( $api_key, 'rk_' ) ) {
 				$message = __( 'Not ready: replace your secret key with a restricted key before deleting it', 'woo-paystack' );
 			} elseif ( $verified_at > time() - 7 * DAY_IN_SECONDS ) {
@@ -1521,23 +1512,22 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$json = file_get_contents( 'php://input' );
 
-		$verification = WC_Paystack_Webhook_Signature::verify(
-			$json,
-			isset( $_SERVER['HTTP_PAYSTACK_SIGNATURE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_PAYSTACK_SIGNATURE'] ) ) : '',
-			isset( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ) : '',
-			(string) $this->webhook_signing_secret,
-			(string) $this->secret_key,
-			time()
-		);
+		$active_mode = $this->testmode ? 'test' : 'live';
+		$other_mode  = $this->testmode ? 'live' : 'test';
+
+		$verification = $this->verify_webhook_for_mode( $active_mode, $json );
 
 		if ( ! $verification['valid'] ) {
+			// One webhook URL often serves both the test and live dashboards. An event signed for the
+			// other mode is genuine: acknowledge it so Paystack doesn't retry it, but don't act on it.
+			if ( $this->verify_webhook_for_mode( $other_mode, $json )['valid'] ) {
+				status_header( 200 );
+				exit;
+			}
+
 			wc_get_logger()->warning( 'Webhook refused: ' . $verification['reason'], array( 'source' => 'paystack' ) );
 			status_header( 401 );
 			exit;
-		}
-
-		if ( WC_Paystack_Webhook_Signature::SCHEME_SIGNING_SECRET === $verification['scheme'] ) {
-			update_option( self::webhook_verified_at_option( $this->testmode ? 'test' : 'live' ), time(), false );
 		}
 
 		$event = json_decode( $json );
@@ -1659,6 +1649,33 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$this->save_card_details( $paystack_response, $order->get_user_id(), $order_id );
 
 		exit;
+	}
+
+	/**
+	 * Verify the current webhook request with one mode's signing secret and key. A request verified
+	 * with the signing secret is recorded for the settings page's readiness line.
+	 *
+	 * @param string $mode     'test' or 'live'.
+	 * @param string $raw_body The request body.
+	 *
+	 * @return array{valid: bool, scheme: string|null, reason: string|null}
+	 */
+	protected function verify_webhook_for_mode( $mode, $raw_body ) {
+
+		$verification = WC_Paystack_Webhook_Signature::verify(
+			$raw_body,
+			isset( $_SERVER['HTTP_PAYSTACK_SIGNATURE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_PAYSTACK_SIGNATURE'] ) ) : '',
+			isset( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] ) ) : '',
+			(string) $this->get_option( $mode . '_webhook_signing_secret' ),
+			(string) $this->get_option( $mode . '_secret_key' ),
+			time()
+		);
+
+		if ( WC_Paystack_Webhook_Signature::SCHEME_SIGNING_SECRET === $verification['scheme'] ) {
+			update_option( self::webhook_verified_at_option( $mode ), time(), false );
+		}
+
+		return $verification;
 	}
 
 	/**

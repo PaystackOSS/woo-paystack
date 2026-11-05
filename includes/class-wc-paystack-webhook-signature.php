@@ -107,7 +107,7 @@ class WC_Paystack_Webhook_Signature {
 			}
 		}
 
-		if ( null === $timestamp || ! ctype_digit( $timestamp ) || empty( $signatures ) ) {
+		if ( null === $timestamp || ! preg_match( '/\A\d+\z/', $timestamp ) || empty( $signatures ) ) {
 			return self::fail( 'malformed Paystack-Signature header' );
 		}
 
