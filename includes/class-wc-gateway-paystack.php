@@ -188,7 +188,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$this->id           = 'paystack';
 		$this->method_title = __( 'Paystack', 'woo-paystack' );
 		/* translators: 1: Paystack signup URL, 2: Paystack API keys URL. */
-		$this->method_description = sprintf( __( 'Paystack provide merchants with the tools and services needed to accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Paystack account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-paystack' ), esc_url( 'https://paystack.com' ), esc_url( 'https://dashboard.paystack.com/#/settings/developers' ) );
+		$this->method_description = sprintf( __( 'Paystack provide merchants with the tools and services needed to accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Paystack account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-paystack' ), esc_url( 'https://paystack.com' ), esc_url( 'https://dashboard.paystack.com/v2/developers' ) );
 		$this->has_fields         = true;
 
 		$this->payment_page = $this->get_option( 'payment_page' );
@@ -399,7 +399,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 							),
 						)
 					),
-					esc_url( 'https://dashboard.paystack.com/#/settings/developers' )
+					esc_url( 'https://dashboard.paystack.com/v2/developers' )
 				);
 				?>
 			</strong>

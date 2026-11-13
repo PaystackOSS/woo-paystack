@@ -270,7 +270,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 						),
 					)
 				),
-				esc_url( 'https://dashboard.paystack.com/#/settings/developers' )
+				esc_url( 'https://dashboard.paystack.com/v2/developers' )
 			);
 			?>
 		</h4>
