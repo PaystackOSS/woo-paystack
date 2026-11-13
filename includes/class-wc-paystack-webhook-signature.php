@@ -2,7 +2,7 @@
 /**
  * Paystack webhook signature verification.
  *
- * Kept free of WordPress and WooCommerce calls so it can be unit tested on its own.
+ * Uses WordPress translation functions for verification failure messages.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -53,15 +53,15 @@ class WC_Paystack_Webhook_Signature {
 		}
 
 		if ( 0 !== strpos( $api_key, 'sk_' ) ) {
-			return self::fail( 'no webhook signing secret is configured, and the API key is not a secret key' );
+			return self::fail( __( 'no webhook signing secret is configured, and the API key is not a secret key', 'woo-paystack' ) );
 		}
 
 		if ( '' === $x_paystack_signature ) {
-			return self::fail( 'missing X-Paystack-Signature header' );
+			return self::fail( __( 'missing X-Paystack-Signature header', 'woo-paystack' ) );
 		}
 
 		if ( ! hash_equals( hash_hmac( 'sha512', $raw_body, $api_key ), strtolower( $x_paystack_signature ) ) ) {
-			return self::fail( 'X-Paystack-Signature does not match' );
+			return self::fail( __( 'X-Paystack-Signature does not match', 'woo-paystack' ) );
 		}
 
 		return array(
@@ -86,7 +86,7 @@ class WC_Paystack_Webhook_Signature {
 	private static function verify_signing_secret( $raw_body, $header, $signing_secret, $now ) {
 
 		if ( '' === $header ) {
-			return self::fail( 'missing Paystack-Signature header' );
+			return self::fail( __( 'missing Paystack-Signature header', 'woo-paystack' ) );
 		}
 
 		$timestamp  = null;
@@ -108,11 +108,12 @@ class WC_Paystack_Webhook_Signature {
 		}
 
 		if ( null === $timestamp || ! preg_match( '/\A\d+\z/', $timestamp ) || empty( $signatures ) ) {
-			return self::fail( 'malformed Paystack-Signature header' );
+			return self::fail( __( 'malformed Paystack-Signature header', 'woo-paystack' ) );
 		}
 
 		if ( abs( $now - (int) $timestamp ) > self::TOLERANCE ) {
-			return self::fail( 'Paystack-Signature timestamp is outside the ' . self::TOLERANCE . ' second tolerance' );
+			/* translators: %d: Allowed timestamp difference in seconds. */
+			return self::fail( sprintf( __( 'Paystack-Signature timestamp is outside the %d second tolerance', 'woo-paystack' ), self::TOLERANCE ) );
 		}
 
 		$expected = hash_hmac( 'sha512', $timestamp . '.' . $raw_body, $signing_secret );
@@ -127,7 +128,7 @@ class WC_Paystack_Webhook_Signature {
 			}
 		}
 
-		return self::fail( 'Paystack-Signature does not match' );
+		return self::fail( __( 'Paystack-Signature does not match', 'woo-paystack' ) );
 	}
 
 	/**
