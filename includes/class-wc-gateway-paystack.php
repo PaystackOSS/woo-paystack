@@ -1547,8 +1547,6 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			return;
 		}
 
-		sleep( 10 );
-
 		$paystack_response = $this->get_paystack_transaction( $event->data->reference );
 
 		if ( false === $paystack_response ) {
