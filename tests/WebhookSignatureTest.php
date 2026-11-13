@@ -7,6 +7,8 @@
  * verifier and the test cannot hide.
  */
 
+require_once __DIR__ . '/bootstrap.php';
+
 use PHPUnit\Framework\TestCase;
 
 class WebhookSignatureTest extends TestCase {
