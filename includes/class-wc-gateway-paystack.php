@@ -1569,7 +1569,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			exit;
 		}
 
-		http_response_code( 200 );
+        status_header( 200 );
 
 		if ( in_array( $order->get_status(), array( 'processing', 'completed', 'on-hold' ), true ) ) {
 			exit;
