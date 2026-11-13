@@ -1,0 +1,17 @@
+{
+	"name": "paystack/woo-paystack",
+	"description": "Paystack WooCommerce Payment Gateway",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require-dev": {
+		"phpunit/phpunit": "^9.6"
+	},
+	"scripts": {
+		"test": "phpunit"
+	},
+	"config": {
+		"platform": {
+			"php": "7.4"
+		}
+	}
+}

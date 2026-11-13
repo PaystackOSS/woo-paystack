@@ -41,6 +41,8 @@ function tbz_wc_paystack_init() {
 
 	add_action( 'admin_init', 'tbz_wc_paystack_testmode_notice' );
 
+	require_once __DIR__ . '/includes/class-wc-paystack-webhook-signature.php';
+
 	require_once __DIR__ . '/includes/class-wc-gateway-paystack.php';
 
 	require_once __DIR__ . '/includes/class-wc-gateway-paystack-subscriptions.php';
