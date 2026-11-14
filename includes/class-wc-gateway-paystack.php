@@ -812,7 +812,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				}
 			}
 
-			$order->update_meta_data( '_paystack_txn_ref', $txnref );
+			$this->save_txn_ref( $order, $txnref );
 			$order->save();
 
 			$payment_channels = $this->get_gateway_payment_channels( $order );
@@ -973,7 +973,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$paystack_params['metadata']['cancel_action'] = wc_get_cart_url();
 		$paystack_params['metadata']['referrer']      = esc_url( site_url() );
 
-		$order->update_meta_data( '_paystack_txn_ref', $txnref );
+		$this->save_txn_ref( $order, $txnref );
 		$order->save();
 
 		$paystack_url = 'https://api.paystack.co/transaction/initialize/';
@@ -1022,7 +1022,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
             $order_amount = round( (float) $order->get_total() * 100 );
 			$txnref       = $order_id . '_' . time();
 
-			$order->update_meta_data( '_paystack_txn_ref', $txnref );
+			$this->save_txn_ref( $order, $txnref );
 			$order->save();
 
 			$paystack_url = 'https://api.paystack.co/transaction/charge_authorization';
@@ -1395,10 +1395,15 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			return;
 		}
 
-		$paystack_txn_ref = $order->get_meta( '_paystack_txn_ref' );
-
-		if ( $paystack_response->data->reference !== $paystack_txn_ref ) {
+		// A customer can open the payment page more than once, and each visit issues a new reference.
+		// Accept a payment made on any reference issued for this order, not only the latest one.
+		if ( ! $this->is_order_txn_ref( $order, $paystack_response->data->reference ) ) {
 			exit;
+		}
+
+		if ( $paystack_response->data->reference !== $order->get_meta( '_paystack_txn_ref' ) ) {
+			$order->update_meta_data( '_paystack_txn_ref', $paystack_response->data->reference );
+			$order->save();
 		}
 
 		http_response_code( 200 );
@@ -1849,6 +1854,50 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 * @param $paystack_txn_ref
 	 * @return false|mixed
 	 */
+	/**
+	 * Save a new transaction reference for an order, keeping the references issued before it.
+	 *
+	 * The payment page issues a new reference each time it is opened. Keeping the earlier ones lets a
+	 * payment made on an earlier attempt still be matched to its order.
+	 *
+	 * @param WC_Order $order  Order.
+	 * @param string   $txnref Transaction reference.
+	 */
+	protected function save_txn_ref( $order, $txnref ) {
+		$refs    = $order->get_meta( '_paystack_txn_refs' );
+		$refs    = is_array( $refs ) ? $refs : array();
+		$current = $order->get_meta( '_paystack_txn_ref' );
+
+		if ( $current && ! in_array( $current, $refs, true ) ) {
+			$refs[] = $current;
+		}
+
+		if ( ! in_array( $txnref, $refs, true ) ) {
+			$refs[] = $txnref;
+		}
+
+		$order->update_meta_data( '_paystack_txn_refs', array_slice( $refs, -20 ) );
+		$order->update_meta_data( '_paystack_txn_ref', $txnref );
+	}
+
+	/**
+	 * Whether a transaction reference was issued for this order.
+	 *
+	 * @param WC_Order $order     Order.
+	 * @param string   $reference Transaction reference.
+	 *
+	 * @return bool
+	 */
+	protected function is_order_txn_ref( $order, $reference ) {
+		if ( $reference === $order->get_meta( '_paystack_txn_ref' ) ) {
+			return true;
+		}
+
+		$refs = $order->get_meta( '_paystack_txn_refs' );
+
+		return is_array( $refs ) && in_array( $reference, $refs, true );
+	}
+
 	private function get_paystack_transaction( $paystack_txn_ref ) {
 
 		$paystack_url = 'https://api.paystack.co/transaction/verify/' . $paystack_txn_ref;

@@ -631,7 +631,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 				}
 			}
 
-			$order->update_meta_data( '_paystack_txn_ref', $txnref );
+			$this->save_txn_ref( $order, $txnref );
 			$order->save();
 		}
 
