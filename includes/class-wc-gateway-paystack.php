@@ -1848,18 +1848,12 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Retrieve a transaction from Paystack.
-	 *
-	 * @since 5.7.5
-	 * @param $paystack_txn_ref
-	 * @return false|mixed
-	 */
-	/**
 	 * Save a new transaction reference for an order, keeping the references issued before it.
 	 *
 	 * The payment page issues a new reference each time it is opened. Keeping the earlier ones lets a
 	 * payment made on an earlier attempt still be matched to its order.
 	 *
+	 * @since 5.7.5
 	 * @param WC_Order $order  Order.
 	 * @param string   $txnref Transaction reference.
 	 */
@@ -1898,6 +1892,13 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		return is_array( $refs ) && in_array( $reference, $refs, true );
 	}
 
+	/**
+	 * Retrieve a transaction from Paystack.
+	 *
+	 * @since 5.7.5
+	 * @param string $paystack_txn_ref Paystack transaction reference
+	 * @return false|mixed
+	 */
 	private function get_paystack_transaction( $paystack_txn_ref ) {
 
 		$paystack_url = 'https://api.paystack.co/transaction/verify/' . $paystack_txn_ref;
