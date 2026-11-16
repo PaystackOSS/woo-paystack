@@ -12,22 +12,28 @@ jQuery( function( $ ) {
 
 			// Toggle api key settings.
 			$( document.body ).on( 'change', '#woocommerce_paystack_testmode', function() {
-				var test_secret_key = $( '#woocommerce_paystack_test_secret_key' ).parents( 'tr' ).eq( 0 ),
-					test_public_key = $( '#woocommerce_paystack_test_public_key' ).parents( 'tr' ).eq( 0 ),
-					live_secret_key = $( '#woocommerce_paystack_live_secret_key' ).parents( 'tr' ).eq( 0 ),
-					live_public_key = $( '#woocommerce_paystack_live_public_key' ).parents( 'tr' ).eq( 0 );
+                var test_secret_key             = $( '#woocommerce_paystack_test_secret_key' ).parents( 'tr' ).eq( 0 ),
+                    test_public_key             = $( '#woocommerce_paystack_test_public_key' ).parents( 'tr' ).eq( 0 ),
+                    test_webhook_signing_secret = $( '#woocommerce_paystack_test_webhook_signing_secret' ).parents( 'tr' ).eq( 0 ),
+                    live_secret_key             = $( '#woocommerce_paystack_live_secret_key' ).parents( 'tr' ).eq( 0 ),
+                    live_public_key             = $( '#woocommerce_paystack_live_public_key' ).parents( 'tr' ).eq( 0 ),
+                    live_webhook_signing_secret = $( '#woocommerce_paystack_live_webhook_signing_secret' ).parents( 'tr' ).eq( 0 );
 
-				if ( $( this ).is( ':checked' ) ) {
-					test_secret_key.show();
-					test_public_key.show();
-					live_secret_key.hide();
-					live_public_key.hide();
-				} else {
-					test_secret_key.hide();
-					test_public_key.hide();
-					live_secret_key.show();
-					live_public_key.show();
-				}
+                if ($( this ).is( ':checked' )) {
+                    test_secret_key.show();
+                    test_public_key.show();
+                    test_webhook_signing_secret.show();
+                    live_secret_key.hide();
+                    live_public_key.hide();
+                    live_webhook_signing_secret.hide();
+                } else {
+                    test_secret_key.hide();
+                    test_public_key.hide();
+                    test_webhook_signing_secret.hide();
+                    live_secret_key.show();
+                    live_public_key.show();
+                    live_webhook_signing_secret.show();
+                }
 			} );
 
 			$( '#woocommerce_paystack_testmode' ).change();
@@ -83,6 +89,10 @@ jQuery( function( $ ) {
 			$( '#woocommerce_paystack_test_secret_key, #woocommerce_paystack_live_secret_key' ).after(
 				'<button class="wc-paystack-toggle-secret" style="height: 30px; margin-left: 2px; cursor: pointer"><span class="dashicons dashicons-visibility"></span></button>'
 			);
+
+            $( '#woocommerce_paystack_test_webhook_signing_secret, #woocommerce_paystack_live_webhook_signing_secret' ).after(
+                '<button class="wc-paystack-toggle-secret" style="height: 30px; margin-left: 2px; cursor: pointer"><span class="dashicons dashicons-visibility"></span></button>'
+            );
 
 			$( '.wc-paystack-toggle-secret' ).on( 'click', function( event ) {
 				event.preventDefault();

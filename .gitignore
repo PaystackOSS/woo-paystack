@@ -57,3 +57,7 @@ bin/composer/**/vendor/
 lib/vendor/
 contributors.md
 contributors.html
+
+# Composer lock (dev-only dependencies)
+composer.lock
+.phpunit.result.cache
