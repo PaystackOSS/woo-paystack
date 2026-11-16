@@ -959,7 +959,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				}
 			}
 
-			$order->update_meta_data( '_paystack_txn_ref', $txnref );
+			$this->save_txn_ref( $order, $txnref );
 			$order->save();
 
 			$payment_channels = $this->get_gateway_payment_channels( $order );
@@ -1120,7 +1120,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$paystack_params['metadata']['cancel_action'] = wc_get_cart_url();
 		$paystack_params['metadata']['referrer']      = esc_url( site_url() );
 
-		$order->update_meta_data( '_paystack_txn_ref', $txnref );
+		$this->save_txn_ref( $order, $txnref );
 		$order->save();
 
 		$paystack_url = 'https://api.paystack.co/transaction/initialize/';
@@ -1169,7 +1169,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
             $order_amount = round( (float) $order->get_total() * 100 );
 			$txnref       = $order_id . '_' . time();
 
-			$order->update_meta_data( '_paystack_txn_ref', $txnref );
+			$this->save_txn_ref( $order, $txnref );
 			$order->save();
 
 			$paystack_url = 'https://api.paystack.co/transaction/charge_authorization';
@@ -1402,6 +1402,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 					}
 
+					// The confirmed payment may belong to an earlier checkout attempt.
+					$order->update_meta_data( '_paystack_txn_ref', $paystack_response->data->reference );
+
 					$order_total      = $order->get_total();
 					$order_currency   = $order->get_currency();
 					$currency_symbol  = get_woocommerce_currency_symbol( $order_currency );
@@ -1564,13 +1567,18 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			return;
 		}
 
-		$paystack_txn_ref = $order->get_meta( '_paystack_txn_ref' );
-
-		if ( $paystack_response->data->reference !== $paystack_txn_ref ) {
+		// A customer can open the payment page more than once, and each visit issues a new reference.
+		// Accept a payment made on any reference issued for this order, not only the latest one.
+		if ( ! $this->is_order_txn_ref( $order, $paystack_response->data->reference ) ) {
 			exit;
 		}
 
-        status_header( 200 );
+		if ( $paystack_response->data->reference !== $order->get_meta( '_paystack_txn_ref' ) ) {
+			$order->update_meta_data( '_paystack_txn_ref', $paystack_response->data->reference );
+			$order->save();
+		}
+
+		status_header( 200 );
 
 		if ( in_array( $order->get_status(), array( 'processing', 'completed', 'on-hold' ), true ) ) {
 			exit;
@@ -2050,10 +2058,56 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	}
 
 	/**
+	 * Save a new transaction reference for an order, keeping the references issued before it.
+	 *
+	 * The payment page issues a new reference each time it is opened. Keeping the earlier ones lets a
+	 * payment made on an earlier attempt still be matched to its order.
+	 *
+	 * @since 5.9.0
+	 * @param WC_Order $order  Order.
+	 * @param string   $txnref Transaction reference.
+	 */
+	protected function save_txn_ref( $order, $txnref ) {
+		$refs    = $order->get_meta( '_paystack_txn_refs' );
+		$refs    = is_array( $refs ) ? $refs : array();
+		$current = $order->get_meta( '_paystack_txn_ref' );
+
+		if ( $current && ! in_array( $current, $refs, true ) ) {
+			$refs[] = $current;
+		}
+
+		if ( ! in_array( $txnref, $refs, true ) ) {
+			$refs[] = $txnref;
+		}
+
+		$order->update_meta_data( '_paystack_txn_refs', array_slice( $refs, -20 ) );
+		$order->update_meta_data( '_paystack_txn_ref', $txnref );
+	}
+
+	/**
+	 * Whether a transaction reference was issued for this order.
+	 *
+	 * @since 5.9.0
+	 * @param WC_Order $order     Order.
+	 * @param string   $reference Transaction reference.
+	 *
+	 * @return bool
+	 */
+	protected function is_order_txn_ref( $order, $reference ) {
+		if ( $reference === $order->get_meta( '_paystack_txn_ref' ) ) {
+			return true;
+		}
+
+		$refs = $order->get_meta( '_paystack_txn_refs' );
+
+		return is_array( $refs ) && in_array( $reference, $refs, true );
+	}
+
+	/**
 	 * Retrieve a transaction from Paystack.
 	 *
 	 * @since 5.7.5
-	 * @param $paystack_txn_ref
+	 * @param string $paystack_txn_ref Paystack transaction reference
 	 * @return false|mixed
 	 */
 	private function get_paystack_transaction( $paystack_txn_ref ) {

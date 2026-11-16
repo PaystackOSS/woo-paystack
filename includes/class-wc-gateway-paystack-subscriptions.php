@@ -91,7 +91,7 @@ class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
 			$order_amount = round( (float) $amount * 100 );
 			$txnref       = $order_id . '_' . time();
 
-			$order->update_meta_data( '_paystack_txn_ref', $txnref );
+			$this->save_txn_ref( $order, $txnref );
 			$order->save();
 
 			$paystack_url = 'https://api.paystack.co/transaction/charge_authorization';
