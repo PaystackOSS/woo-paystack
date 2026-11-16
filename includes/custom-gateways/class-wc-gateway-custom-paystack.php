@@ -261,7 +261,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 			printf(
 				wp_kses(
 					/* translators: %s: Paystack dashboard developer settings URL. */
-					__( 'Important: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below', 'woo-paystack' ),
+					__( 'Required: Orders are only confirmed when the customer returns to your store, or by webhook. Set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below (select all refund and transactions events when adding the webhook URL), and paste your webhook signing secret into the main Paystack payment method settings.', 'woo-paystack' ),
 					array(
 						'a' => array(
 							'href'   => array(),
@@ -270,7 +270,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 						),
 					)
 				),
-				esc_url( 'https://dashboard.paystack.com/#/settings/developers' )
+				esc_url( 'https://dashboard.paystack.com/v2/developers' )
 			);
 			?>
 		</h4>
@@ -631,7 +631,7 @@ class WC_Gateway_Custom_Paystack extends WC_Gateway_Paystack_Subscriptions {
 				}
 			}
 
-			$order->update_meta_data( '_paystack_txn_ref', $txnref );
+			$this->save_txn_ref( $order, $txnref );
 			$order->save();
 		}
 

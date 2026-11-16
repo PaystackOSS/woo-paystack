@@ -3,7 +3,7 @@ Contributors: paystack, tubiz
 Tags: paystack, woocommerce, payment gateway, mastercard, visa
 Requires at least: 6.8
 Tested up to: 7.1
-Stable tag: 5.8.6
+Stable tag: 5.9.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -114,6 +114,11 @@ If you do not find Paystack on the Payment method options, please go through the
 
 
 == Changelog ==
+
+= 5.9.0 - November 16, 2026 =
+*   New: Add support for Paystack restricted keys and webhook signing secrets. Learn more: https://paystack.com/docs/developer-tools/api-keys/#restricted-keys
+*   Improve: Recognize payments from earlier checkout attempts during order confirmation
+*   Tweak: WooCommerce 11.3 compatibility
 
 = 5.8.6 - October 31, 2026 =
 *   Fix: Validate order key before displaying Paystack params on the pay for order page
@@ -309,6 +314,9 @@ If you do not find Paystack on the Payment method options, please go through the
 = 1.0.0 - February 3, 2016 =
 *   First release
 
+
+== Upgrade Notice ==
+IMPORTANT: Before switching to a restricted key and webhook signing secret, upgrade to this version. Then update your keys on the Paystack WooCommerce settings page.
 
 
 == Screenshots ==
