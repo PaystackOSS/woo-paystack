@@ -1255,6 +1255,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 					}
 
+					// The confirmed payment may belong to an earlier checkout attempt.
+					$order->update_meta_data( '_paystack_txn_ref', $paystack_response->data->reference );
+
 					$order_total      = $order->get_total();
 					$order_currency   = $order->get_currency();
 					$currency_symbol  = get_woocommerce_currency_symbol( $order_currency );
