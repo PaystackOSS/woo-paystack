@@ -12,7 +12,7 @@
  * Requires at least: 6.8
  * Requires PHP: 7.4
  * WC requires at least: 9.6
- * WC tested up to: 11.2
+ * WC tested up to: 11.3
  * Text Domain: woo-paystack
  * Domain Path: /languages
  */
