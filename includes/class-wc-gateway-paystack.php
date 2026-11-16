@@ -1856,7 +1856,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 * The payment page issues a new reference each time it is opened. Keeping the earlier ones lets a
 	 * payment made on an earlier attempt still be matched to its order.
 	 *
-	 * @since 5.7.5
+	 * @since 5.9.0
 	 * @param WC_Order $order  Order.
 	 * @param string   $txnref Transaction reference.
 	 */
@@ -1880,6 +1880,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	/**
 	 * Whether a transaction reference was issued for this order.
 	 *
+	 * @since 5.9.0
 	 * @param WC_Order $order     Order.
 	 * @param string   $reference Transaction reference.
 	 *
